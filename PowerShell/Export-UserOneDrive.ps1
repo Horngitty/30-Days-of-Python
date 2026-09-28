@@ -59,8 +59,8 @@ function Write-Log {
 # Strip characters Windows does not allow in file/folder names.
 function Get-SafeName {
     param([string]$Name)
-    $invalid = [IO.Path]::GetInvalidFileNameChars() -join ''
-    $safe = $Name -replace "[$([regex]::Escape($invalid))]", '_'
+    # Fixed Windows set (not GetInvalidFileNameChars(), which varies by host OS).
+    $safe = $Name -replace '[<>:"/\\|?*\x00-\x1F]', '_'
     return $safe.TrimEnd('.', ' ')
 }
 
